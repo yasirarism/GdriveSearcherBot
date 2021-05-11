@@ -1,6 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from config import BOT_TOKEN, RESULTS_COUNT, SUDO_CHATS_ID
+from config import BOT_TOKEN, RESULTS_COUNT, AUTHORIZED_CHATS
 from drive import drive
 from requests import get as g
 
@@ -14,7 +14,7 @@ keyboard = None
 data = None
 
 
-@app.on_message(filters.command("start") & ~filters.edited & filters.chat(SUDO_CHATS_ID))
+@app.on_message(filters.command("start") & ~filters.edited & filters.chat(AUTHORIZED_CHATS))
 async def start_command(_, message):
     await message.reply_text("What did you expect to happen? Try /help")
 
@@ -24,7 +24,7 @@ async def help_command(_, message):
     await message.reply_text("/search [Query]")
 
 
-@app.on_message(filters.command("search") & ~filters.edited & filters.chat(SUDO_CHATS_ID))
+@app.on_message(filters.command("search") & ~filters.edited & filters.chat(AUTHORIZED_CHATS))
 async def search(_, message):
     global i, m, data
     m = await message.reply_text("**Searching....**")
